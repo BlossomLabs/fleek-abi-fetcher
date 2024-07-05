@@ -1,0 +1,22 @@
+{
+  "name": "fleek-func",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./src/main.ts",
+  "scripts": {
+    "compile": "cd wasm && bun run build && cd ..",
+    "build": "tsc && rollup -c",
+    "fleek": "fleek login",
+    "create-func": "fleek functions create --name hello",
+    "deploy-func": "fleek functions deploy --name hello --path dist/main.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-wasm": "^6.2.2",
+    "rollup": "^2.60.0",
+    "typescript": "^5.2.2",
+    "@fleek-platform/cli": "^2.8.6"
+  }
+}
