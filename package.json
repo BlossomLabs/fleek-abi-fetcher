@@ -1,17 +1,18 @@
 {
-  "name": "fleek-func",
+  "name": "fleek-abi-fetcher",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "main": "./src/main.ts",
   "scripts": {
-    "compile": "cd wasm && bun run build && cd ..",
-    "build": "tsc && rollup -c",
-    "fleek": "fleek login",
-    "create-func": "fleek functions create --name hello",
-    "deploy-func": "fleek functions deploy --name hello --path dist/main.js"
+    "build": "tsc src/main.ts && rollup -c",
+    "create-func": "fleek functions create --name",
+    "deploy-func": "fleek functions deploy --noBundle --path dist/main.js --name",
+    "lint": "biome check --write && biome format --write && biome lint --write"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^11.1.6",
     "@rollup/plugin-wasm": "^6.2.2",
@@ -19,5 +20,8 @@
     "typescript": "^5.2.2",
     "@fleek-platform/cli": "^2.8.6"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "viem": "^2.17.3"
+  }
 }

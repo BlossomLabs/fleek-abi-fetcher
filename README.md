@@ -1,14 +1,16 @@
-# Fleek WebAssembly Starter Kit
+# Fleek ABI Fetcher
 
-This is a starter kit for anyone who wants to code webassembly and deploy into a fleek function.
+This function fetches the ABI for a given contract address on any given chain supported by Sourcify and returns it in JSON format.
 
-## Build
+You can use the deployed function in abi.function.on-fleek.network
+
+## Build and deploy
 
 ```sh
 bun i
 bun compile # create wasm/dist/*
 bun run build # create dist/main.js
 bun fleek # login to fleek if needed
-bun create-func # create function
-bun deploy-func # deploy function
+bun create-func myfunc # create function
+bun deploy-func myfunc # deploy function
 ```

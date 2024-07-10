@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "assemblyscript": "^0.27.28"
-  },
-  "scripts": {
-    "build": "asc greet.ts -b raw -o dist/greet.wasm"
-  }
-}
-
