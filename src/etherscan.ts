@@ -17,15 +17,15 @@ const explorers = Object.fromEntries(
 export async function getAbiEntriesFromEtherscan(
   address: string,
   chainId: number,
+  apiKey?: string,
 ): Promise<Abi> {
   if (!explorers[chainId]) {
     throw new Error(`Unsupported chainId: ${chainId}`);
   }
 
   const baseUrl = explorers[chainId];
-  const apiKey = "";
   const response = await fetch(
-    `${baseUrl}?module=contract&action=getabi&address=${address}&apikey=${apiKey}`,
+    `${baseUrl}?module=contract&action=getabi&address=${address}&apikey=${apiKey || ""}`,
   );
 
   if (!response.ok) {

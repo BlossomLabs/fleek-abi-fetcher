@@ -28,8 +28,8 @@ type ResponseObject =
 
 export async function main(params: RequestObject): Promise<ResponseObject> {
   try {
-    const { chainId, contractAddress } = processParams(params);
-    const abi = await getAbiEntries(contractAddress, chainId);
+    const { chainId, contractAddress, apiKey } = processParams(params);
+    const abi = await getAbiEntries(contractAddress, chainId, apiKey);
     return {
       status: 200,
       headers: {
@@ -71,6 +71,7 @@ function isErrorWithStatusAndBody(
 function processParams(params: RequestObject): {
   chainId: number;
   contractAddress: Address;
+  apiKey?: string;
 } {
   const { method, path } = params;
 
@@ -103,18 +104,39 @@ function processParams(params: RequestObject): {
     };
   }
 
+  const apiKey = Array.isArray(params.query?.apiKey)
+    ? params.query.apiKey[0]
+    : params.query?.apiKey;
+
   return {
     chainId: Number(chainId),
     contractAddress,
+    apiKey,
   };
 }
 
-async function getAbiEntries(address: string, chainId: number): Promise<Abi> {
+async function getAbiEntries(
+  address: string,
+  chainId: number,
+  apiKey?: string,
+): Promise<Abi> {
   try {
-    const abi = await getAbiEntriesFromSourcify(address, chainId);
+    const abi = await timeout(
+      getAbiEntriesFromSourcify(address, chainId),
+      5000,
+    );
     return abi;
   } catch (error) {
-    const abi = await getAbiEntriesFromEtherscan(address, chainId);
+    const abi = await getAbiEntriesFromEtherscan(address, chainId, apiKey);
     return abi;
   }
+}
+
+function timeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Timeout")), ms),
+    ),
+  ]);
 }

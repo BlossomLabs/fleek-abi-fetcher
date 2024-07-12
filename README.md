@@ -5,7 +5,7 @@ This function fetches the ABI for a given contract address on any given chain su
 You can use the deployed function in:
 
 ```
-https://abi.functions.on-fleek.app/v0/<chainId>/<contractAddress>/
+https://abi.functions.on-fleek.app/v0/<chainId>/<contractAddress>/?apiKey=<apiKey>
 ```
 
 Example:
